@@ -1,0 +1,58 @@
+{% extends "base.html" %} {% block content %} {% load static %}
+<section class="content">
+    <div class="main_header">
+        <img src="static/img/twitter.svg" id="logo" />
+        <h1>Twitter</h1>
+    </div>
+    <section class="posts_form">
+        <form action="/" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class='form-user'>
+            <img src = "{% static 'img/user.png' %}"  />
+             </div>
+             <div class='input-class'>
+                <input type="text" name="name" placeholder="Name" required class='input-name'/>
+            <textarea name="body" placeholder="Tell us anything!" required rows='4' cols='30'></textarea>
+            <hr/>
+            <div class="button">
+                <input type="file" , name="image">
+                <input type="submit" value="Tweet" />
+            </div>
+         </div>
+        </form>
+
+    </section>
+    <section class="posts">
+        <ul>
+            {% for post in posts %}
+            <li>
+                <div class="logo">
+                    <img src="{% static 'img/user.png' %}" />
+                </div>
+                <div class="name_body">
+                    <div class="name">{{post.name}}</div>
+                    <div class="datetime"> {{post.created_at}} </div>
+                    <p>{{post.body}}</p>
+                    {% if post.image.url %}
+                    <img src="{{post.image.url}}" alt="" style="height: 250px; width:400px" />
+                    {% endif %}
+                    <div class='like-btn'>
+                        <a href = "/likes/{{post.id}}"><img id='thumb' src="{% static 'img/thumb.svg' %}" /></a>
+                        <h3>{{post.likes}}</h3>
+                    </div>
+                </div>
+                <img id='menu-img' src="{% static 'img/menu.svg' %}" />
+                <div class='js-menu'>
+                    <a href="/edit/{{post.id}}/">edit</a><br>
+                    <a href="/delete/{{post.id}}/">delete</a>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        <script src= "{% static 'js/posts.js' %}"></script>
+    </section>
+</section>
+
+
+
+{% endblock %}
